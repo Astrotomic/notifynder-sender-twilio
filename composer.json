@@ -1,7 +1,7 @@
 {
   "name": "astrotomic/notifynder-sender-twilio",
   "description": "Twilio Sender for the Notifynder package.",
-  "keywords": ["notifications", "laravel"],
+  "keywords": ["notifications", "notifynder", "laravel", "twilio", "sms"],
   "license": "MIT",
   "authors": [
     {
