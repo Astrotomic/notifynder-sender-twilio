@@ -48,7 +48,7 @@ Add the following array to `config/notifynder.php`
             return $message
                 ->from(...)
                 ->to(...)
-                ->body(...);
+                ->body($notification->getText());
         }
         'store' => false, // wether you want to also store the notifications in database
     ],
