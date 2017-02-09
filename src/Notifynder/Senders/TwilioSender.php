@@ -6,13 +6,21 @@ use Twilio\Rest\Client;
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Astrotomic\Notifynder\Senders\Messages\SmsMessage;
+use Fenos\Notifynder\Traits\SenderCallback;
 
 class TwilioSender implements SenderContract
 {
+    use SenderCallback;
+
     /**
      * @var array
      */
     protected $notifications;
+
+    /**
+     * @var array
+     */
+    protected $config;
 
     /**
      * TwilioSender constructor.
@@ -22,14 +30,15 @@ class TwilioSender implements SenderContract
     public function __construct(array $notifications)
     {
         $this->notifications = $notifications;
+        $this->config = notifynder_config('senders.twilio');
     }
 
     public function send(SenderManagerContract $sender)
     {
-        $sid = config('notifynder.senders.twilio.sid');
-        $token = config('notifynder.senders.twilio.token');
-        $store = config('notifynder.senders.twilio.store', false);
-        $callback = config('notifynder.senders.twilio.callback');
+        $sid = $this->config['sid'];
+        $token = $this->config['token'];
+        $store = $this->config['store'];
+        $callback = $this->getCallback();
         $client = new Client($sid, $token);
         foreach ($this->notifications as $notification) {
             $sms = call_user_func($callback, new SmsMessage(), $notification);

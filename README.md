@@ -44,13 +44,32 @@ Add the following array to `config/notifynder.php`
     'twilio' => [
         'sid' => '',
         'token' => '',
-        'callback' => function(\Astrotomic\Notifynder\Senders\Messages\SmsMessage $message, \Fenos\Notifynder\Models\Notification $notification) {
-            return $message
-                ->from(...)
-                ->to(...)
-                ->body($notification->getText());
-        }
         'store' => false, // wether you want to also store the notifications in database
     ],
 ],
+```
+
+Register the sender callback in your `app/Providers/AppServiceProvider.php`
+
+```php
+<?php
+namespace App\Providers;
+
+use Illuminate\Support\ServiceProvider;
+use Astrotomic\Notifynder\Senders\TwilioSender;
+use Astrotomic\Notifynder\Senders\Messages\SmsMessage;
+use Fenos\Notifynder\Builder\Notification;
+
+class AppServiceProvider extends ServiceProvider
+{
+    public function boot()
+    {
+        app('notifynder.sender')->setCallback(TwilioSender::class, function (SmsMessage $message, Notification $notification) {
+            return $message
+                ->from('0123456789')
+                ->to('9876543210')
+                ->text($notification->getText());
+        });
+    }
+}
 ```
