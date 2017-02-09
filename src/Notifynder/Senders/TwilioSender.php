@@ -3,10 +3,10 @@
 namespace Astrotomic\Notifynder\Senders;
 
 use Twilio\Rest\Client;
+use Fenos\Notifynder\Traits\SenderCallback;
 use Fenos\Notifynder\Contracts\SenderContract;
 use Fenos\Notifynder\Contracts\SenderManagerContract;
 use Astrotomic\Notifynder\Senders\Messages\SmsMessage;
-use Fenos\Notifynder\Traits\SenderCallback;
 
 class TwilioSender implements SenderContract
 {
